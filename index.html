@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <style>
         * {
             margin: 0;
@@ -19,17 +23,42 @@
 
 <body>
     <canvas id='c'></canvas>
+
     <script>
         var c = document.getElementById("c");
+        c.addEventListener("click", function () {
+            toggleFullScreen();
+        }, false);
+        function toggleFullScreen() {
+            var doc = window.document;
+            var docEl = doc.documentElement;
+
+            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                requestFullScreen.call(docEl);
+                setTimeout(resize, 500);
+            }
+            else {
+                cancelFullScreen.call(doc);
+                setTimeout(resize, 500);
+            }
+        }
         var ctx = c.getContext("2d");
         //making the canvas full screen
-        c.height = window.innerHeight;
-        c.width = window.innerWidth;
-        //chinese characters - taken from the unicode charset
-        var chinese = "田由甲申甴电甶男甸甹町画甼甽甾甿畀畁畂畃畄畅畆畇畈畉畊畋界畍畎畏畐畑";
+        function resize() {
+            c.height = window.innerHeight;
+            c.width = window.innerWidth;
+        }
+        resize();
+        //f characters - taken from the unicode charset
+        var f = " 0123456789小盆友猴子真可爱ɐɯɯǝɒmmǝ";
+        for (i = 0; i < 45; i++)f += String.fromCharCode(i + 65393);
+        //for (i = 0; i < 50; i++)f += String.fromCharCode(i + 12449);
         //converting the string into an array of single characters
-        chinese = chinese.split("");
-        var font_size = 10;
+        f = f.split("");
+        var font_size = 16;
         var columns = c.width / font_size; //number of columns for the rain
         //an array of drops - one per column
         var drops = [];
@@ -41,14 +70,15 @@
         function draw() {
             //Black BG for the canvas
             //translucent BG to show trail
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.02)";
             ctx.fillRect(0, 0, c.width, c.height);
-            ctx.fillStyle = "#0F0"; //green text
-            ctx.font = font_size + "px arial";
+            ctx.fillStyle = "#0f0"; //green text
+            ctx.font = font_size + "px consolas";
             //looping over drops
             for (var i = 0; i < drops.length; i++) {
-                //a random chinese character to print
-                var text = chinese[Math.floor(Math.random() * chinese.length)];
+                ctx.font = (Math.random() + 0.75) * font_size + "px consolas"
+                //a random character to print
+                var text = f[Math.floor(Math.random() * f.length)];
                 //x = i*font_size, y = value of drops[i]*font_size
                 ctx.fillText(text, i * font_size, drops[i] * font_size);
                 //sending the drop back to the top randomly after it has crossed the screen
@@ -56,10 +86,11 @@
                 if (drops[i] * font_size > c.height && Math.random() > 0.975)
                     drops[i] = 0;
                 //incrementing Y coordinate
-                drops[i]++;
+                drops[i] += 1;
             }
         }
-        setInterval(draw, 33);
+        setInterval(draw, 40);
     </script>
 </body>
+
 </html>
