@@ -37,9 +37,9 @@
 
   if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
     requestFullScreen.call(docEl);      
-        var c = document.getElementById("c");
+    setTimeout(function(){var c = document.getElementById("c");
         c.height = window.innerHeight;
-        c.width = window.innerWidth;
+        c.width = window.innerWidth;},500)
   }
   else {
       cancelFullScreen.call(doc);
