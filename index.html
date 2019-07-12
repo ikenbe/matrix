@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,39 +23,39 @@
 
 <body>
     <canvas id='c'></canvas>
-    
-    <script>
-        var goFS = document.getElementById("c");
-  goFS.addEventListener("click", function() {
-      toggleFullScreen();
-  }, false);
-        function toggleFullScreen() {
-  var doc = window.document;
-  var docEl = doc.documentElement;
 
-  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-    requestFullScreen.call(docEl);      
-    setTimeout(function(){var c = document.getElementById("c");
-        c.height = window.innerHeight;
-        c.width = window.innerWidth;},500)
-  }
-  else {
-      cancelFullScreen.call(doc);
-  }
-}
-    </script>
     <script>
         var c = document.getElementById("c");
+        c.addEventListener("click", function () {
+            toggleFullScreen();
+        }, false);
+        function toggleFullScreen() {
+            var doc = window.document;
+            var docEl = doc.documentElement;
+
+            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                requestFullScreen.call(docEl);
+                setTimeout(resize, 500);
+            }
+            else {
+                cancelFullScreen.call(doc);
+                setTimeout(resize, 500);
+            }
+        }
         var ctx = c.getContext("2d");
         //making the canvas full screen
-        c.height = window.innerHeight;
-        c.width = window.innerWidth;
+        function resize() {
+            c.height = window.innerHeight;
+            c.width = window.innerWidth;
+        }
+        resize();
         //f characters - taken from the unicode charset
-        var f = " 0123456789";
+        var f = " 0123456789小盆友猴子真可爱ɐɯɯǝɒmmǝ";
         for (i = 0; i < 45; i++)f += String.fromCharCode(i + 65393);
+        //for (i = 0; i < 50; i++)f += String.fromCharCode(i + 12449);
         //converting the string into an array of single characters
         f = f.split("");
         var font_size = 16;
@@ -69,12 +70,13 @@
         function draw() {
             //Black BG for the canvas
             //translucent BG to show trail
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.02)";
             ctx.fillRect(0, 0, c.width, c.height);
-            ctx.fillStyle = "#0F0"; //green text
+            ctx.fillStyle = "#0f0"; //green text
             ctx.font = font_size + "px consolas";
             //looping over drops
             for (var i = 0; i < drops.length; i++) {
+                ctx.font = (Math.random() + 0.75) * font_size + "px consolas"
                 //a random character to print
                 var text = f[Math.floor(Math.random() * f.length)];
                 //x = i*font_size, y = value of drops[i]*font_size
@@ -84,10 +86,11 @@
                 if (drops[i] * font_size > c.height && Math.random() > 0.975)
                     drops[i] = 0;
                 //incrementing Y coordinate
-                drops[i]++;
+                drops[i] += 1;
             }
         }
-        setInterval(draw, 33);
+        setInterval(draw, 40);
     </script>
 </body>
+
 </html>
