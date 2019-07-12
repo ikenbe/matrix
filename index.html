@@ -36,10 +36,13 @@
   var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
   if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-    requestFullScreen.call(docEl);
+    requestFullScreen.call(docEl);      
+        var c = document.getElementById("c");
+        c.height = window.innerHeight;
+        c.width = window.innerWidth;
   }
   else {
-    cancelFullScreen.call(doc);
+      cancelFullScreen.call(doc);
   }
 }
     </script>
