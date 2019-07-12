@@ -2,6 +2,8 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <style>
         * {
             margin: 0;
@@ -20,6 +22,27 @@
 
 <body>
     <canvas id='c'></canvas>
+    
+    <script>
+        var goFS = document.getElementById("c");
+  goFS.addEventListener("click", function() {
+      toggleFullScreen();
+  }, false);
+        function toggleFullScreen() {
+  var doc = window.document;
+  var docEl = doc.documentElement;
+
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    requestFullScreen.call(docEl);
+  }
+  else {
+    cancelFullScreen.call(doc);
+  }
+}
+    </script>
     <script>
         var c = document.getElementById("c");
         var ctx = c.getContext("2d");
