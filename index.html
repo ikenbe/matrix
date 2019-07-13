@@ -53,7 +53,7 @@
         }
         resize();
         //f characters - taken from the unicode charset
-        var f = " 0123456789小盆友猴子真可爱ɐɯɯǝɒmmǝ";
+        var f = " 0000111123456789୧٢მटμƸ小盆友猴子真可爱ɐɯɯǝɒmmǝ";
         for (i = 0; i < 45; i++)f += String.fromCharCode(i + 65393);
         //for (i = 0; i < 50; i++)f += String.fromCharCode(i + 12449);
         //converting the string into an array of single characters
@@ -70,17 +70,17 @@
         function draw() {
             //Black BG for the canvas
             //translucent BG to show trail
-            ctx.fillStyle = "rgba(0, 0, 0, 0.02)";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
             ctx.fillRect(0, 0, c.width, c.height);
             ctx.fillStyle = "#0f0"; //green text
-            ctx.font = font_size + "px consolas";
+            ctx.font = font_size + "px consolas,\"Microsoft YaHei\"";
             //looping over drops
             for (var i = 0; i < drops.length; i++) {
-                ctx.font = (Math.random() + 0.75) * font_size + "px consolas"
+                ctx.font = (Math.random() + 0.4) *(Math.random() + 0.4) * font_size + "px consolas,\"Microsoft YaHei\""
                 //a random character to print
                 var text = f[Math.floor(Math.random() * f.length)];
                 //x = i*font_size, y = value of drops[i]*font_size
-                ctx.fillText(text, i * font_size, drops[i] * font_size);
+                ctx.fillText(text, (i-0.15+Math.random()*0.3) * font_size, drops[i] * font_size);
                 //sending the drop back to the top randomly after it has crossed the screen
                 //adding a randomness to the reset to make the drops scattered on the Y axis
                 if (drops[i] * font_size > c.height && Math.random() > 0.975)
